@@ -1,0 +1,32 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<script type="module">
+    import { ObjectDB, OpenMode } from "/ObjectDB.mjs";
+    import { Person } from "/Person.mjs";
+
+    (async () => {
+
+        const db = new ObjectDB({database: "NewDb", dataset: "Messages"});
+
+        const joe = Object.assign(new Person(), {
+            name: "Joe",
+            age: 45
+        });
+        
+
+        const success = await db.writeAsync("joe", joe);
+        console.log(success);
+
+        const retreive = await db.readAsync("joe");
+        console.log({retreive});
+        
+        console.log(retreive instanceof Person);
+        
+        console.log("done");
+
+    })();
+</script>
